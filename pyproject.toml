@@ -1,18 +1,19 @@
 [tool.poetry]
 name = "dbgpy"
-version = "0.1.0"
-description = "Python implementation of Rust's dbg! macro using CSTs"
+version = "0.1.2"
+description = "Python implementation of Rust's dbg! macro"
 authors = ["Marcel Rød <marcelroed@gmail.com>"]
 license = "MIT"
+repository = "https://github.com/marcelroed/dbgpy"
+readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.7"
-torch = {version = "^1", optional = true}
+python = "^3"
 astunparse = {version = "^1", markers = "python_version<'3.9'"}
 
 [tool.poetry.dev-dependencies]
-pytest = "^7"
-black = "^22"
+pytest = "*"
+black = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
