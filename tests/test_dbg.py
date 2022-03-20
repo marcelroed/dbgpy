@@ -1,10 +1,12 @@
-import torch
-
 from dbgpy import dbg, config
+
+try:
+    import torch
+except ImportError:
+    torch = None
 
 config.prefix_format = "{path}:"
 
-dbg(config.prefix_format)
 
 def test_literal_string():
     print()
@@ -43,6 +45,8 @@ def test_multiline_expression():
 
 def test_multiline_string():
     print()
+    if torch is None:
+        return
     dbg(
         "This is a test string\n"
         "This is a test string\n"
