@@ -2,6 +2,7 @@ import ast
 import inspect
 from pathlib import Path
 from dbgpy import config
+from warnings import warn
 
 
 def get_frame_above():
@@ -67,6 +68,8 @@ def _get_call_args_from_frame(frame):
 
     # Parse the function to an ast
     calling_source, function_ast = _parse_ast(calling_function, frame)
+    if calling_source is None and function_ast is None:
+        return None, None, None
 
     # Line number of this function call
     function_call_line_number = line_number - parent_line_number + 1
@@ -86,12 +89,17 @@ def _get_call_args_from_frame(frame):
 
 def _parse_ast(calling_function, frame):
     if frame.f_code.co_filename == '<stdin>':
-        raise ValueError('Cannot get source from stdin (for example in Python REPL)')
+        warn('Cannot get source from stdin (for example in Python REPL), dbg will default to printing normally')
+        return None, None
+    elif '<cell line: ' in frame.f_code.co_name:
+        warn('dbg currently doesn\'t support IPython cells, dbg will default to printing normally')
+        return None, None
     elif calling_function is None:
+        # In a module
         calling_source = inspect.getsource(frame)
         function_ast = ast.parse(calling_source)
     else:
-        # In a function, we need to parse only the function
+        # In a function we just need to parse the function
         calling_source = inspect.getsource(calling_function)
         function_ast = ast.parse(calling_source)
     return calling_source, function_ast
@@ -109,4 +117,4 @@ def frame_file_path(frame):
         else:
             return Path(frame.f_code.co_filename).name
     except ValueError:
-        return '?'
+        return '<interactive>'

@@ -54,7 +54,7 @@ def _print_spaced(prefix: str, val_str: str, **kwargs):
 
 
 def _format_prefix(
-    file_path: str, lineno: int, expression_string: Optional[str], val: Any
+        file_path: str, lineno: int, expression_string: Optional[str], val: Any
 ):
     inner_path = f"{file_path}:{lineno}"
     path = config.prefix_format.format(path=inner_path)
@@ -76,8 +76,16 @@ def _get_expression(call_source_lines: List[str], arg) -> Optional[str]:
 
     # Otherwise, just return the literal expression string
     return call_source_lines[arg.lineno - 1][
-        arg.col_offset : arg.end_col_offset
-    ].strip()
+           arg.col_offset: arg.end_col_offset
+           ].strip()
+
+
+def return_vals(vals):
+    if not config.return_result:
+        return None
+    if len(vals) == 1:
+        return vals[0]
+    return vals
 
 
 def dbg(*vals, **kwargs):
@@ -88,6 +96,9 @@ def dbg(*vals, **kwargs):
 
     # Parse the stack frame, return source and arg nodes
     call_args, call_source, base_lineno = _get_call_args_from_frame(outer_frame)
+    if call_args is None:
+        print(*vals)
+        return return_vals(vals)
     call_source_lines = call_source.splitlines()
 
     assert len(call_args) == len(vals)
@@ -100,4 +111,4 @@ def dbg(*vals, **kwargs):
         val_str = _format_value(val)
         _print_spaced(prefix, val_str)
 
-    return vals
+    return return_vals(vals)

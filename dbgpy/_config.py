@@ -13,5 +13,8 @@ class _Config:
     prefix_format: str = "{path}:"
     """Format string for the prefix of the debug output. `path` is the path of the file."""
 
+    return_result: bool = True
+    """Return the result of the expressions after printing"""
+
 
 config = _Config()
