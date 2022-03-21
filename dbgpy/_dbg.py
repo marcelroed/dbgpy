@@ -34,7 +34,7 @@ def _format_value(val: Any, _repr=False):
     if torch is not None and isinstance(val, torch.Tensor) and not _repr:
         val_string = str(val)
         end_of_tensor = val_string.rfind(")")
-        new_val_string = f"{val_string[:end_of_tensor]}, shape={val.shape}{val_string[end_of_tensor:]}"
+        new_val_string = f"{val_string[:end_of_tensor]}, shape={val.shape}, {val.device}{val_string[end_of_tensor:]}"
         return new_val_string
 
     # Otherwise, default to repr or str

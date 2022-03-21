@@ -55,3 +55,15 @@ def test_multiline_string():
         torch.randn(3, 3).T,
     )
 
+
+def test_method_call():
+    print()
+    class TestClass:
+        def __init__(self, x):
+            self.x = x
+
+        def test_method(self):
+            dbg(self.x)
+
+    tc = TestClass(100)
+    tc.test_method()

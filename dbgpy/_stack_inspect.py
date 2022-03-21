@@ -1,5 +1,6 @@
 import ast
 import inspect
+import textwrap
 from pathlib import Path
 from dbgpy import config
 from warnings import warn
@@ -101,6 +102,8 @@ def _parse_ast(calling_function, frame):
     else:
         # In a function we just need to parse the function
         calling_source = inspect.getsource(calling_function)
+        # Unindent the source
+        calling_source = textwrap.dedent(calling_source)
         function_ast = ast.parse(calling_source)
     return calling_source, function_ast
 
@@ -112,9 +115,9 @@ def frame_file_path(frame):
     try:
         if config.project_path:
             return Path(frame.f_code.co_filename).relative_to(
-                Path(__import__(__name__.split(".")[0]).__file__).parents[1]
+                Path.cwd()
             )
         else:
             return Path(frame.f_code.co_filename).name
     except ValueError:
-        return '<interactive>'
+        return '<unknown>'

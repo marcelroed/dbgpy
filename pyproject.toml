@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dbgpy"
-version = "0.1.4"
+version = "0.1.5"
 description = "Python implementation of Rust's dbg! macro"
 authors = ["Marcel Rød <marcelroed@gmail.com>"]
 license = "MIT"
