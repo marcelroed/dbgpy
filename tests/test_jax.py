@@ -20,7 +20,7 @@ def test_jax_compile_time():
 
     @jax.jit
     @jax.vmap
-    def addone(x: jax.ShapedArray):
+    def addone(x: jax.Array):
         dbg(x)
         return x + 1
 
