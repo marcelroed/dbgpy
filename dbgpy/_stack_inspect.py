@@ -98,6 +98,8 @@ def _parse_ast(calling_function, frame):
     elif calling_function is None:
         # In a module
         calling_source = inspect.getsource(frame)
+        # Unindent the source
+        calling_source = textwrap.dedent(calling_source)
         function_ast = ast.parse(calling_source)
     else:
         # In a function we just need to parse the function

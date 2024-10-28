@@ -1,4 +1,5 @@
 from dbgpy import dbg, config
+from re import match
 
 try:
     import torch
@@ -8,7 +9,7 @@ except ImportError:
 config.prefix_format = "{path}:"
 
 
-def test_literal_string():
+def test_literal_string(capsys):
     print()
     dbg("This is a test string")
 

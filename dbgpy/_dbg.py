@@ -14,6 +14,13 @@ except ImportError:
     torch = None
 
 try:
+    import jax
+    import jax.numpy as jnp
+    import jax.experimental.host_callback as hcb
+except ImportError:
+    jax = None
+
+try:
     import astunparse
 except ImportError:
     astunparse = None
@@ -37,6 +44,8 @@ def _format_value(val: Any, _repr=False):
         new_val_string = f"{val_string[:end_of_tensor]}, shape={val.shape}, {val.device}{val_string[end_of_tensor:]}"
         return new_val_string
 
+    # if jax is not None and isinstance(jnp.ndarray):
+
     # Otherwise, default to repr or str
     if _repr or isinstance(val, str):
         return repr(val)
@@ -45,7 +54,7 @@ def _format_value(val: Any, _repr=False):
 
 def _print_spaced(prefix: str, val_str: str, **kwargs):
     """Print variables with their variable names"""
-    n_spaces = len(prefix)
+    n_spaces = len(prefix) + 1
     spaced = _space_all_but_first(val_str, n_spaces)
     print(
         f"{prefix} {spaced}",
