@@ -1,6 +1,6 @@
 [project]
 name = "dbgpy"
-version = "0.2.0"
+version = "0.2.1"
 description = "Python implementation of Rust's dbg! macro"
 readme = "README.md"
 authors = [{ name = "Marcel Rød", email = "marcelroed@gmail.com" }]
