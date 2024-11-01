@@ -72,16 +72,20 @@ def _get_call_args_from_frame(frame):
     if calling_source is None and function_ast is None:
         return None, None, None
 
+    assert function_ast is not None
+
     # Line number of this function call
     function_call_line_number = line_number - parent_line_number + 1
 
     # Find the call object in the function ast matching the line number
-    call_object = None
+    call_object: ast.Call | None = None
+
     for node in ast.walk(function_ast):
         if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call):
             if node.lineno == function_call_line_number:
                 call_object = node.value
                 break
+    assert call_object is not None
     # Get the call object's arguments
     call_args = call_object.args
 
@@ -89,11 +93,17 @@ def _get_call_args_from_frame(frame):
 
 
 def _parse_ast(calling_function, frame):
-    if frame.f_code.co_filename == '<stdin>':
-        warn('Cannot get source from stdin (for example in Python REPL), dbg will default to printing normally')
+    if frame.f_code.co_filename == "<stdin>":
+        warn(
+            "Cannot get source from stdin (for example in Python REPL), dbg will default to printing normally",
+            stacklevel=2,
+        )
         return None, None
-    elif '<cell line: ' in frame.f_code.co_name:
-        warn('dbg currently doesn\'t support IPython cells, dbg will default to printing normally')
+    elif "<cell line: " in frame.f_code.co_name:
+        warn(
+            "dbg currently doesn't support IPython cells, dbg will default to printing normally",
+            stacklevel=2,
+        )
         return None, None
     elif calling_function is None:
         # In a module
@@ -116,10 +126,8 @@ def frame_file_path(frame):
     """
     try:
         if config.project_path:
-            return Path(frame.f_code.co_filename).relative_to(
-                Path.cwd()
-            )
+            return Path(frame.f_code.co_filename).relative_to(Path.cwd())
         else:
             return Path(frame.f_code.co_filename).name
     except ValueError:
-        return '<unknown>'
+        return "<unknown>"

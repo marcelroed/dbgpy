@@ -1,5 +1,4 @@
 from dbgpy import dbg, config
-from re import match
 
 try:
     import torch

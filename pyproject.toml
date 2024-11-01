@@ -3,26 +3,20 @@ name = "dbgpy"
 version = "0.2.0"
 description = "Python implementation of Rust's dbg! macro"
 readme = "README.md"
-authors = [
-    {name = "Marcel Rød", email = "marcelroed@gmail.com"},
-]
-license = {text = "MIT License"}
+authors = [{ name = "Marcel Rød", email = "marcelroed@gmail.com" }]
+license = { text = "MIT License" }
 # repository = "https://github.com/marcelroed/dbgpy"
 
 requires-python = ">=3.9"
-dependencies = [
-    "attrs>=24.2.0",
-]
+dependencies = ["attrs>=24.2.0"]
 
 [dependency-groups]
-tests = [
-    "jax>=0.4.30",
-    "pytest>=8.3.3",
-    "torch>=2.5.0",
+tests = ["jax>=0.4.30", "pytest>=8.3.3", "torch>=2.5.0"]
+dev = [
+    "neovim>=0.3.1",
 ]
 
 [project.urls]
 Repository = "https://github.com/marcelroed/dbgpy"
 Homepage = "https://github.com/marcelroed/dbgpy"
 Issues = "https://github.com/marcelroed/dbgpy/issues"
-
