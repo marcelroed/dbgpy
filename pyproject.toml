@@ -12,9 +12,7 @@ dependencies = ["attrs>=24.2.0"]
 
 [dependency-groups]
 tests = ["jax>=0.4.30", "pytest>=8.3.3", "torch>=2.5.0"]
-dev = [
-    "neovim>=0.3.1",
-]
+dev = ["neovim>=0.3.1"]
 
 [project.urls]
 Repository = "https://github.com/marcelroed/dbgpy"
